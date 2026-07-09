@@ -68,15 +68,22 @@ export default function PatientForm({
     onSubmit(values);
   };
 
+  const labelClass =
+    "block text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1.5";
+  const inputClass =
+    "w-full border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold-400 focus:border-navy-600";
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg border border-slate-200">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
-          <h2 className="text-base font-semibold text-slate-900">{title}</h2>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-navy-900/50 p-4">
+      <div className="w-full max-w-md bg-white border border-slate-300">
+        <div className="flex items-center justify-between px-6 py-4 bg-navy-900 border-b-2 border-gold-500">
+          <h2 className="text-sm font-semibold text-white uppercase tracking-wide">
+            {title}
+          </h2>
           <button
             onClick={onClose}
             aria-label="Close"
-            className="text-slate-400 hover:text-slate-600 focus:outline-none"
+            className="text-navy-200 hover:text-white focus:outline-none"
           >
             <X className="w-5 h-5" />
           </button>
@@ -85,24 +92,20 @@ export default function PatientForm({
         <form onSubmit={handleSubmit} className="px-6 py-5 space-y-4">
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                First name
-              </label>
+              <label className={labelClass}>First name</label>
               <input
                 value={values.given}
                 onChange={handleChange("given")}
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold-400 focus:border-navy-600"
+                className={inputClass}
                 placeholder="Jane"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                Last name
-              </label>
+              <label className={labelClass}>Last name</label>
               <input
                 value={values.family}
                 onChange={handleChange("family")}
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold-400 focus:border-navy-600"
+                className={inputClass}
                 placeholder="Doe"
               />
             </div>
@@ -110,13 +113,11 @@ export default function PatientForm({
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                Gender
-              </label>
+              <label className={labelClass}>Gender</label>
               <select
                 value={values.gender}
                 onChange={handleChange("gender")}
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold-400 focus:border-navy-600 bg-white"
+                className={`${inputClass} bg-white`}
               >
                 <option value="unknown">Unknown</option>
                 <option value="male">Male</option>
@@ -125,29 +126,29 @@ export default function PatientForm({
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                Date of birth
-              </label>
+              <label className={labelClass}>Date of birth</label>
               <input
                 type="date"
                 value={values.birthDate}
                 onChange={handleChange("birthDate")}
                 max={today}
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold-400 focus:border-navy-600"
+                className={`${inputClass} font-mono`}
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1.5">
+            <label className={labelClass}>
               Phone number{" "}
-              <span className="text-slate-400 font-normal">(optional)</span>
+              <span className="text-slate-400 normal-case font-normal">
+                (optional)
+              </span>
             </label>
             <input
               type="tel"
               value={values.phone}
               onChange={handleChange("phone")}
-              className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold-400 focus:border-navy-600"
+              className={`${inputClass} font-mono`}
               placeholder="+1 (415) 555-0198"
             />
           </div>
@@ -162,14 +163,14 @@ export default function PatientForm({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-100 focus:outline-none"
+              className="px-4 py-2 text-xs font-semibold uppercase tracking-wide text-slate-600 border border-slate-300 hover:bg-slate-50 focus:outline-none"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting}
-              className="px-4 py-2 rounded-lg text-sm font-semibold text-white bg-navy-700 hover:bg-navy-800 disabled:bg-navy-400 focus:outline-none focus:ring-2 focus:ring-gold-400 focus:ring-offset-2"
+              className="px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white bg-navy-800 hover:bg-navy-900 disabled:bg-navy-400 border border-navy-900 focus:outline-none focus:ring-2 focus:ring-gold-400 focus:ring-offset-2"
             >
               {submitting ? "Saving…" : submitLabel}
             </button>

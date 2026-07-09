@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Activity,
   Plus,
@@ -6,6 +6,10 @@ import {
   Search,
   X,
   MoreVertical,
+  Users,
+  Clock,
+  Settings,
+  UserPlus,
 } from "lucide-react";
 import {
   searchPatients,
@@ -23,11 +27,9 @@ import {
 import PatientForm, { type PatientFormValues } from "../components/PatientForm";
 
 const AVATAR_COLORS = [
-  "bg-navy-100 text-navy-700",
+  "bg-navy-100 text-navy-800",
   "bg-gold-100 text-gold-700",
-  "bg-emerald-100 text-emerald-700",
   "bg-slate-200 text-slate-700",
-  "bg-navy-50 text-navy-800",
 ];
 
 function avatarColor(id: string | undefined) {
@@ -52,6 +54,8 @@ export default function PatientsPage() {
     | null
   >(null);
   const [saving, setSaving] = useState(false);
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   const load = useCallback(async (name?: string) => {
     setLoading(true);
@@ -86,6 +90,31 @@ export default function PatientsPage() {
     return () => clearTimeout(handle);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
+
+  useEffect(() => {
+    if (!openMenuId) return;
+    const close = () => setOpenMenuId(null);
+    document.addEventListener("click", close);
+    return () => document.removeEventListener("click", close);
+  }, [openMenuId]);
+
+  const focusSearch = () => {
+    searchInputRef.current?.focus();
+    searchInputRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
+
+  const navItems = [
+    { label: "Patients", icon: Users, active: true, onClick: undefined },
+    { label: "Search", icon: Search, active: false, onClick: focusSearch },
+    {
+      label: "Create Patient",
+      icon: UserPlus,
+      active: false,
+      onClick: () => setModal({ mode: "create" }),
+    },
+    { label: "Activity", icon: Clock, active: false, onClick: undefined },
+    { label: "Settings", icon: Settings, active: false, onClick: undefined },
+  ];
 
   const handleCreate = async (values: PatientFormValues) => {
     setSaving(true);
@@ -123,86 +152,108 @@ export default function PatientsPage() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-slate-50 flex">
-      <aside className="w-56 shrink-0 border-r border-slate-200 bg-white flex flex-col">
-        <div className="flex items-center gap-2 px-5 py-5">
-          <div className="w-8 h-8 rounded-lg bg-navy-700 flex items-center justify-center">
+    <div className="min-h-screen w-full bg-slate-100 flex flex-col">
+      {/* Full-width structural header */}
+      <header className="bg-navy-900 text-white">
+        <div className="h-14 flex items-center px-6">
+          <div className="w-7 h-7 bg-navy-700 flex items-center justify-center border border-navy-600">
             <Activity className="w-4 h-4 text-white" strokeWidth={2.5} />
           </div>
-          <span className="text-base font-semibold text-slate-900 tracking-tight">
-            LabPilot <span className="text-gold-500">AI</span>
+          <span className="ml-2.5 text-sm font-semibold tracking-wide uppercase">
+            LabPilot <span className="text-gold-400">AI</span>
           </span>
-        </div>
-        <nav className="flex-1 px-3 space-y-1">
-          <div className="flex items-center gap-2.5 px-3 py-2 rounded-lg bg-navy-50 text-navy-800 border-l-2 border-gold-500 text-sm font-medium">
-            <Search className="w-4 h-4" />
-            Patients
-          </div>
-        </nav>
-      </aside>
 
-      <main className="flex-1 p-8 max-w-5xl">
-        <div className="flex items-start justify-between mb-1">
+          <nav className="ml-10 flex items-center h-14">
+            {navItems.map(({ label, icon: Icon, active, onClick }) => (
+              <button
+                key={label}
+                onClick={onClick}
+                className={`h-14 px-4 flex items-center gap-2 text-sm font-medium border-b-2 transition-colors ${
+                  active
+                    ? "border-gold-500 text-white"
+                    : "border-transparent text-navy-200 hover:text-white hover:border-navy-500"
+                }`}
+              >
+                <Icon className="w-4 h-4" />
+                {label}
+              </button>
+            ))}
+          </nav>
+
+          <div className="ml-auto flex items-center gap-3">
+            <div className="w-7 h-7 rounded-full bg-navy-600 flex items-center justify-center text-xs font-semibold border border-navy-500">
+              H
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Sub-header / page title bar */}
+      <div className="bg-white border-b border-slate-300">
+        <div className="px-6 py-4 flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900">
-              Search Patients
+            <h1 className="text-lg font-bold text-slate-900 uppercase tracking-wide">
+              Patient Records
             </h1>
-            <p className="text-sm text-slate-500 mt-1">
-              Find patients on the FHIR server by typing all or part of a
-              name.
+            <p className="text-xs text-slate-500 mt-0.5">
+              Search the FHIR server by patient name.
             </p>
           </div>
           <div className="flex items-center gap-2">
             <button
               onClick={() => load(query || undefined)}
-              className="flex items-center gap-1.5 text-sm font-medium text-slate-600 hover:text-slate-900 px-3 py-2 rounded-lg hover:bg-slate-100 focus:outline-none"
+              className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-slate-600 hover:text-slate-900 px-3 py-2 border border-slate-300 hover:bg-slate-50 focus:outline-none"
             >
-              <RefreshCw className="w-4 h-4" />
+              <RefreshCw className="w-3.5 h-3.5" />
               Refresh
             </button>
             <button
               onClick={() => setModal({ mode: "create" })}
-              className="flex items-center gap-1.5 text-sm font-semibold text-white bg-navy-700 hover:bg-navy-800 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-400 focus:ring-offset-2"
+              className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-white bg-navy-800 hover:bg-navy-900 px-4 py-2 border border-navy-900 focus:outline-none focus:ring-2 focus:ring-gold-400 focus:ring-offset-2"
             >
-              <Plus className="w-4 h-4" />
+              <Plus className="w-3.5 h-3.5" />
               Create Patient
             </button>
           </div>
         </div>
+      </div>
 
-        <div className="mt-6 relative">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+      <main className="flex-1 p-6">
+        {/* Search bar */}
+        <div className="relative mb-4 max-w-md">
+          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
+            ref={searchInputRef}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search by name…"
-            className="w-full rounded-xl border border-slate-300 bg-white pl-10 pr-10 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-gold-400 focus:border-navy-600"
+            className="w-full border border-slate-300 bg-white pl-9 pr-9 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold-400 focus:border-navy-600"
           />
           {query && (
             <button
               onClick={() => setQuery("")}
               aria-label="Clear search"
-              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
             >
               <X className="w-4 h-4" />
             </button>
           )}
         </div>
 
-        <div className="mt-6 bg-white border border-slate-200 rounded-2xl overflow-hidden">
-          <div className="px-5 py-3 border-b border-slate-100 text-sm text-slate-500">
+        {/* Grid table */}
+        <div className="bg-white border border-slate-300">
+          <div className="px-4 py-2 border-b border-slate-300 bg-slate-50 text-xs text-slate-500 flex items-center justify-between">
             {loading ? (
               "Loading patients…"
             ) : error ? (
               <span className="text-red-600">{error}</span>
             ) : (
-              <>
-                Showing{" "}
+              <span>
                 <span className="font-semibold text-slate-900">
                   {patients.length}
                 </span>{" "}
-                matching patients
-              </>
+                matching records
+              </span>
             )}
           </div>
 
@@ -213,52 +264,77 @@ export default function PatientsPage() {
           )}
 
           {!loading && patients.length > 0 && (
-            <table className="w-full text-sm">
+            <table className="w-full text-sm border-collapse">
               <thead>
-                <tr className="text-left text-slate-500 border-b border-slate-100">
-                  <th className="px-5 py-2.5 font-medium">Name</th>
-                  <th className="px-5 py-2.5 font-medium">Gender</th>
-                  <th className="px-5 py-2.5 font-medium">Date of birth</th>
-                  <th className="px-5 py-2.5 font-medium">Phone number</th>
-                  <th className="px-5 py-2.5 w-10"></th>
+                <tr className="bg-slate-50">
+                  <th className="text-left px-4 py-2 font-semibold text-slate-600 text-xs uppercase tracking-wide border border-slate-200">
+                    Name
+                  </th>
+                  <th className="text-left px-4 py-2 font-semibold text-slate-600 text-xs uppercase tracking-wide border border-slate-200">
+                    Gender
+                  </th>
+                  <th className="text-left px-4 py-2 font-semibold text-slate-600 text-xs uppercase tracking-wide border border-slate-200">
+                    Date of birth
+                  </th>
+                  <th className="text-left px-4 py-2 font-semibold text-slate-600 text-xs uppercase tracking-wide border border-slate-200">
+                    Phone number
+                  </th>
+                  <th className="w-10 border border-slate-200"></th>
                 </tr>
               </thead>
               <tbody>
                 {patients.map((p) => (
-                  <tr
-                    key={p.id}
-                    className="border-b border-slate-50 last:border-0 hover:bg-slate-50 cursor-pointer"
-                    onClick={() => setModal({ mode: "edit", patient: p })}
-                  >
-                    <td className="px-5 py-3 flex items-center gap-3">
-                      <div
-                        className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold ${avatarColor(
-                          p.id
-                        )}`}
-                      >
-                        {initials(p)}
+                  <tr key={p.id} className="hover:bg-navy-50/50">
+                    <td className="px-4 py-2.5 border border-slate-200">
+                      <div className="flex items-center gap-2.5">
+                        <div
+                          className={`w-7 h-7 flex items-center justify-center text-xs font-semibold ${avatarColor(
+                            p.id
+                          )}`}
+                        >
+                          {initials(p)}
+                        </div>
+                        <span className="font-medium text-slate-900">
+                          {displayName(p)}
+                        </span>
                       </div>
-                      <span className="font-medium text-slate-900">
-                        {displayName(p)}
-                      </span>
                     </td>
-                    <td className="px-5 py-3 text-slate-600">
+                    <td className="px-4 py-2.5 border border-slate-200 text-slate-600">
                       {genderLabel(p.gender)}
                     </td>
-                    <td className="px-5 py-3 text-slate-600">
+                    <td className="px-4 py-2.5 border border-slate-200 text-slate-600 font-mono text-xs">
                       {p.birthDate ?? "—"}
                     </td>
-                    <td className="px-5 py-3 text-slate-600">
+                    <td className="px-4 py-2.5 border border-slate-200 text-slate-600 font-mono text-xs">
                       {displayPhone(p)}
                     </td>
-                    <td className="px-5 py-3 text-right">
+                    <td className="px-4 py-2.5 border border-slate-200 text-right relative">
                       <button
-                        onClick={(e) => e.stopPropagation()}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setOpenMenuId((id) => (id === p.id ? null : p.id ?? null));
+                        }}
                         aria-label="Row actions"
                         className="text-slate-400 hover:text-slate-600"
                       >
                         <MoreVertical className="w-4 h-4" />
                       </button>
+                      {openMenuId === p.id && (
+                        <div
+                          onClick={(e) => e.stopPropagation()}
+                          className="absolute right-4 top-full mt-1 w-32 bg-white border border-slate-300 z-10 text-left"
+                        >
+                          <button
+                            onClick={() => {
+                              setModal({ mode: "edit", patient: p });
+                              setOpenMenuId(null);
+                            }}
+                            className="w-full px-3 py-2 text-sm text-slate-700 hover:bg-slate-50"
+                          >
+                            Edit
+                          </button>
+                        </div>
+                      )}
                     </td>
                   </tr>
                 ))}
