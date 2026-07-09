@@ -91,7 +91,7 @@ export default function PatientForm({
               <input
                 value={values.given}
                 onChange={handleChange("given")}
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold-400 focus:border-navy-600"
                 placeholder="Jane"
               />
             </div>
@@ -102,7 +102,7 @@ export default function PatientForm({
               <input
                 value={values.family}
                 onChange={handleChange("family")}
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold-400 focus:border-navy-600"
                 placeholder="Doe"
               />
             </div>
@@ -116,7 +116,7 @@ export default function PatientForm({
               <select
                 value={values.gender}
                 onChange={handleChange("gender")}
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold-400 focus:border-navy-600 bg-white"
               >
                 <option value="unknown">Unknown</option>
                 <option value="male">Male</option>
@@ -133,7 +133,7 @@ export default function PatientForm({
                 value={values.birthDate}
                 onChange={handleChange("birthDate")}
                 max={today}
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold-400 focus:border-navy-600"
               />
             </div>
           </div>
@@ -147,7 +147,7 @@ export default function PatientForm({
               type="tel"
               value={values.phone}
               onChange={handleChange("phone")}
-              className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold-400 focus:border-navy-600"
               placeholder="+1 (415) 555-0198"
             />
           </div>
@@ -169,7 +169,7 @@ export default function PatientForm({
             <button
               type="submit"
               disabled={submitting}
-              className="px-4 py-2 rounded-lg text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              className="px-4 py-2 rounded-lg text-sm font-semibold text-white bg-navy-700 hover:bg-navy-800 disabled:bg-navy-400 focus:outline-none focus:ring-2 focus:ring-gold-400 focus:ring-offset-2"
             >
               {submitting ? "Saving…" : submitLabel}
             </button>

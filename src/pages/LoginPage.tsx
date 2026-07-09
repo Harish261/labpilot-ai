@@ -33,11 +33,11 @@ export default function LoginPage() {
       <div className="w-full max-w-sm">
         {/* Brand */}
         <div className="flex items-center justify-center gap-2 mb-8">
-          <div className="w-9 h-9 rounded-lg bg-blue-600 flex items-center justify-center">
+          <div className="w-9 h-9 rounded-lg bg-navy-700 flex items-center justify-center">
             <Activity className="w-5 h-5 text-white" strokeWidth={2.5} />
           </div>
           <span className="text-xl font-semibold text-slate-900 tracking-tight">
-            LabPilot <span className="text-blue-600">AI</span>
+            LabPilot <span className="text-gold-500">AI</span>
           </span>
         </div>
 
@@ -67,7 +67,7 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@hospital.org"
-                className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-gold-400 focus:border-navy-600 transition-colors"
               />
             </div>
 
@@ -81,7 +81,7 @@ export default function LoginPage() {
                 </label>
                 <button
                   type="button"
-                  className="text-sm font-medium text-blue-600 hover:text-blue-700 focus:outline-none focus:underline"
+                  className="text-sm font-medium text-navy-700 hover:text-navy-800 focus:outline-none focus:underline"
                 >
                   Forgot password?
                 </button>
@@ -94,7 +94,7 @@ export default function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2.5 pr-10 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  className="w-full rounded-lg border border-slate-300 px-3 py-2.5 pr-10 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-gold-400 focus:border-navy-600 transition-colors"
                 />
                 <button
                   type="button"
@@ -116,7 +116,7 @@ export default function LoginPage() {
                 type="checkbox"
                 checked={remember}
                 onChange={(e) => setRemember(e.target.checked)}
-                className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-2 focus:ring-blue-500"
+                className="w-4 h-4 rounded border-slate-300 text-navy-700 focus:ring-2 focus:ring-gold-400"
               />
               <span className="text-sm text-slate-600">Keep me signed in</span>
             </label>
@@ -130,7 +130,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full flex items-center justify-center gap-2 rounded-lg bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white text-sm font-semibold py-2.5 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              className="w-full flex items-center justify-center gap-2 rounded-lg bg-navy-700 hover:bg-navy-800 disabled:bg-navy-400 text-white text-sm font-semibold py-2.5 transition-colors focus:outline-none focus:ring-2 focus:ring-gold-400 focus:ring-offset-2"
             >
               {submitting && <Loader2 className="w-4 h-4 animate-spin" />}
               {submitting ? "Signing in…" : "Sign in"}

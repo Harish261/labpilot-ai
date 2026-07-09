@@ -23,11 +23,11 @@ import {
 import PatientForm, { type PatientFormValues } from "../components/PatientForm";
 
 const AVATAR_COLORS = [
-  "bg-blue-100 text-blue-700",
-  "bg-purple-100 text-purple-700",
+  "bg-navy-100 text-navy-700",
+  "bg-gold-100 text-gold-700",
   "bg-emerald-100 text-emerald-700",
-  "bg-amber-100 text-amber-700",
-  "bg-rose-100 text-rose-700",
+  "bg-slate-200 text-slate-700",
+  "bg-navy-50 text-navy-800",
 ];
 
 function avatarColor(id: string | undefined) {
@@ -126,15 +126,15 @@ export default function PatientsPage() {
     <div className="min-h-screen w-full bg-slate-50 flex">
       <aside className="w-56 shrink-0 border-r border-slate-200 bg-white flex flex-col">
         <div className="flex items-center gap-2 px-5 py-5">
-          <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center">
+          <div className="w-8 h-8 rounded-lg bg-navy-700 flex items-center justify-center">
             <Activity className="w-4 h-4 text-white" strokeWidth={2.5} />
           </div>
           <span className="text-base font-semibold text-slate-900 tracking-tight">
-            LabPilot <span className="text-blue-600">AI</span>
+            LabPilot <span className="text-gold-500">AI</span>
           </span>
         </div>
         <nav className="flex-1 px-3 space-y-1">
-          <div className="flex items-center gap-2.5 px-3 py-2 rounded-lg bg-blue-50 text-blue-700 text-sm font-medium">
+          <div className="flex items-center gap-2.5 px-3 py-2 rounded-lg bg-navy-50 text-navy-800 border-l-2 border-gold-500 text-sm font-medium">
             <Search className="w-4 h-4" />
             Patients
           </div>
@@ -162,7 +162,7 @@ export default function PatientsPage() {
             </button>
             <button
               onClick={() => setModal({ mode: "create" })}
-              className="flex items-center gap-1.5 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              className="flex items-center gap-1.5 text-sm font-semibold text-white bg-navy-700 hover:bg-navy-800 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-400 focus:ring-offset-2"
             >
               <Plus className="w-4 h-4" />
               Create Patient
@@ -176,7 +176,7 @@ export default function PatientsPage() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search by name…"
-            className="w-full rounded-xl border border-slate-300 bg-white pl-10 pr-10 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full rounded-xl border border-slate-300 bg-white pl-10 pr-10 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-gold-400 focus:border-navy-600"
           />
           {query && (
             <button
