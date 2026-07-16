@@ -53,3 +53,8 @@ export function initials(patient: fhir4.Patient): string {
 export function displayPhone(patient: fhir4.Patient): string {
   return patient.telecom?.find((t) => t.system === "phone")?.value ?? "—";
 }
+
+export function genderLabel(gender?: string): string {
+  if (!gender) return "Unknown";
+  return gender.charAt(0).toUpperCase() + gender.slice(1);
+}

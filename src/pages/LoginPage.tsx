@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { Activity, Eye, EyeOff, Loader2 } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
+import LogoMark from "../components/LogoMark";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -32,9 +33,7 @@ export default function LoginPage() {
     <div className="min-h-screen w-full bg-slate-100 flex flex-col">
       {/* Structural top bar, consistent with the rest of the app */}
       <div className="h-14 w-full bg-navy-900 flex items-center px-6 border-b-2 border-gold-500">
-        <div className="w-7 h-7 bg-navy-700 flex items-center justify-center border border-navy-600">
-          <Activity className="w-4 h-4 text-white" strokeWidth={2.5} />
-        </div>
+        <LogoMark size={28} />
         <span className="ml-2.5 text-sm font-semibold text-white tracking-wide uppercase">
           LabPilot <span className="text-gold-400">AI</span>
         </span>
