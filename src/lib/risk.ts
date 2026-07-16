@@ -85,14 +85,14 @@ export function assessRisk(
     (diastolic != null && diastolic >= 90) ||
     (heartRate != null && (heartRate > 120 || heartRate < 50)) ||
     (oxygenSaturation != null && oxygenSaturation < 92) ||
-    conditionCount >= 3 ||
+    conditionCount >= 4 ||
     medicationCount >= 5;
 
   if (isHigh) return "high";
 
   const isModerate =
     (systolic != null && systolic >= 130 && systolic <= 139) ||
-    (conditionCount >= 1 && conditionCount <= 2) ||
+    (conditionCount >= 1 && conditionCount <= 3) ||
     (medicationCount >= 3 && medicationCount <= 4);
 
   if (isModerate) return "moderate";
