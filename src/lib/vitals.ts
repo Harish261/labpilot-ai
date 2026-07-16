@@ -1,6 +1,8 @@
 const BP_PANEL_CODE = "85354-9";
-const BP_SYSTOLIC_CODE = "8480-6";
-const BP_DIASTOLIC_CODE = "8462-4";
+export const BP_SYSTOLIC_CODE = "8480-6";
+export const BP_DIASTOLIC_CODE = "8462-4";
+export const HEART_RATE_CODES = ["8867-4"];
+export const OXYGEN_SATURATION_CODES = ["59408-1", "2708-6"];
 
 interface SimpleVitalDef {
   key: string;
@@ -9,13 +11,13 @@ interface SimpleVitalDef {
 }
 
 const SIMPLE_VITAL_DEFS: SimpleVitalDef[] = [
-  { key: "heart-rate", label: "Heart rate", codes: ["8867-4"] },
+  { key: "heart-rate", label: "Heart rate", codes: HEART_RATE_CODES },
   { key: "body-temperature", label: "Body temperature", codes: ["8310-5"] },
   { key: "respiratory-rate", label: "Respiratory rate", codes: ["9279-1"] },
   {
     key: "oxygen-saturation",
     label: "Oxygen saturation",
-    codes: ["59408-1", "2708-6"],
+    codes: OXYGEN_SATURATION_CODES,
   },
   { key: "body-height", label: "Body height", codes: ["8302-2"] },
   { key: "body-weight", label: "Body weight", codes: ["29463-7"] },
@@ -37,7 +39,7 @@ export interface VitalRow {
   series: VitalSeriesPoint[];
 }
 
-function conceptHasCode(
+export function conceptHasCode(
   concept: fhir4.CodeableConcept | undefined,
   codes: string[]
 ): boolean {
@@ -46,7 +48,7 @@ function conceptHasCode(
   );
 }
 
-function getEffectiveDate(obs: fhir4.Observation): string | null {
+export function getEffectiveDate(obs: fhir4.Observation): string | null {
   return obs.effectiveDateTime ?? obs.effectivePeriod?.start ?? obs.issued ?? null;
 }
 

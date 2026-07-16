@@ -21,6 +21,7 @@ import {
   getMedications,
   getPatient,
   getVitals,
+  resourcesOf,
 } from "../lib/fhir";
 import { displayName, genderLabel } from "../lib/patient-mapper";
 import { buildVitalRows, type VitalRow } from "../lib/vitals";
@@ -30,10 +31,6 @@ interface MedicationRow {
   name: string;
   dosageText: string | null;
   status: string | undefined;
-}
-
-function resourcesOf<T extends fhir4.Resource>(bundle: fhir4.Bundle<T>): T[] {
-  return (bundle.entry?.map((e) => e.resource).filter(Boolean) ?? []) as T[];
 }
 
 function errorMessage(err: unknown, fallback: string): string {

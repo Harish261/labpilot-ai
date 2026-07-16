@@ -10,6 +10,12 @@
 
 const FHIR_BASE = "/fhir";
 
+export function resourcesOf<T extends fhir4.Resource>(
+  bundle: fhir4.Bundle<T>
+): T[] {
+  return (bundle.entry?.map((e) => e.resource).filter(Boolean) ?? []) as T[];
+}
+
 class FhirRequestError extends Error {
   status?: number;
   constructor(message: string, status?: number) {
